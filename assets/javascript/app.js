@@ -23,12 +23,25 @@ $("#addTrainBtn").on("click", function(e){
     var firstTrain = $("#firstTrainInput").val().trim();
     var frequency = $("#frequencyInput").val().trim();
 
+    // Use momentJS to convert and calculate time
+
+    var firstTimeMoment = moment(firstTrain, "HH:mm").subtract(1, "years");
+    var timeNow = moment();
+    var timeDifference = timeNow.diff(moment(firstTimeMoment), "minutes");
+    var timeRemaining = timeDifference % frequency;
+    var minutesAway = frequency - timeRemaining;
+    var nextArrival = timeNow.add(minutesAway, "minutes");
+    var nextArrivalMoment = moment(nextArrival).format("HH:mm");
+
+
     // Create new object to store data from form
     var newTrain = {
         name: trainName,
         destination: destination,
         firstTrain: firstTrain,
-        frequency: frequency
+        frequency: frequency,
+        nextArrivalMoment: nextArrivalMoment,
+        minutesAway: minutesAway
     };
 
     // Push new train data to Firebase database
@@ -39,6 +52,8 @@ $("#addTrainBtn").on("click", function(e){
     console.log(newTrain.destination);
     console.log(newTrain.firstTrain);
     console.log(newTrain.frequency);
+    console.log(newTrain.nextArrivalMoment);
+    console.log(newTrain.minutesAway);
 
     // Clear previous input
     $("#trainNameInput").val("");
@@ -57,26 +72,32 @@ database.ref().on("child_added", function(childSnapshot) {
     // Extract info for from snapshot; store in var
     var trainName = childSnapshot.val().name;
     var destination = childSnapshot.val().destination;
-    var firstTrain = childSnapshot.val().firstTrain;
     var frequency = childSnapshot.val().frequency;
-
+    var firstTrain = childSnapshot.val().firstTrain;
+    var nextTrain = childSnapshot.val().nextArrivalMoment;
+    var minutesAway = childSnapshot.val().minutesAway;
+    
     // clg Check Point
     console.log(trainName);
     console.log(destination);
     console.log(firstTrain);
     console.log(frequency);
-
-    // MomentJS code goes below
+    console.log(nextTrain);
+    console.log(minutesAway);
 
     // Add info to table
     var newTableRow = $("<tr>").append(
         $("<td>").text(trainName),
         $("<td>").text(destination),
-        $("<td>").text(firstTrain),
-        $("<td>").text(frequency)
-
+        //$("<td>").text(firstTrain),
+        $("<td>").text("Every " + frequency + " minutes"),
+        $("<td>").text(nextTrain),
+        $("<td>").text(minutesAway + " minutes away")
+       
     );
 
     // Append newTableRow to timeTable
     $("#timeTable > tbody").append(newTableRow);
 });
+
+
