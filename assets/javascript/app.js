@@ -85,11 +85,11 @@ database.ref().on("child_added", function(childSnapshot) {
     console.log(nextTrain);
     console.log(minutesAway);
 
+    
     // Add info to table
     var newTableRow = $("<tr>").append(
         $("<td>").text(trainName),
         $("<td>").text(destination),
-        //$("<td>").text(firstTrain),
         $("<td>").text("Every " + frequency + " minutes"),
         $("<td>").text(nextTrain),
         $("<td>").text(minutesAway + " minutes away")
@@ -100,4 +100,14 @@ database.ref().on("child_added", function(childSnapshot) {
     $("#timeTable > tbody").append(newTableRow);
 });
 
+// Tried to add one single button to remove all data from firebase but did not succeed. The button shows up on the page but it obviously doesn't do anything for now. 
 
+/* 
+Should be something like: 
+
+$("#removeBtn").on("click", function(){
+    database.ref().on("child_added", function(childSnapshot){
+        database.ref().remove();
+    });
+});
+*/
