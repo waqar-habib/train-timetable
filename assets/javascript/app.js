@@ -19,12 +19,16 @@ $("#addTrainBtn").on("click", function(e){
 
     // Grab User Input
     var trainName = $("#trainNameInput").val().trim();
-        // Add other input vars here
+    var destination = $("#destinationInput").val().trim();
+    var firstTrain = $("#firstTrainInput").val().trim();
+    var frequency = $("#frequencyInput").val().trim();
 
     // Create new object to store data from form
     var newTrain = {
-        name: trainName
-        // other key value pairs go here
+        name: trainName,
+        destination: destination,
+        firstTrain: firstTrain,
+        frequency: frequency
     };
 
     // Push new train data to Firebase database
@@ -32,11 +36,15 @@ $("#addTrainBtn").on("click", function(e){
 
     // Console Log Check
     console.log(newTrain.name);
-        // add other clg checks here
+    console.log(newTrain.destination);
+    console.log(newTrain.firstTrain);
+    console.log(newTrain.frequency);
 
     // Clear previous input
     $("#trainNameInput").val("");
-        //add other empty .vals here
+    $("#destinationInput").val("");
+    $("#firstTrainInput").val("");
+    $("#frequencyInput").val("");
 
 }); // End addTrainBtn function
 
@@ -48,17 +56,25 @@ database.ref().on("child_added", function(childSnapshot) {
 
     // Extract info for from snapshot; store in var
     var trainName = childSnapshot.val().name;
-        // Add other vars similar to ln22 here
+    var destination = childSnapshot.val().destination;
+    var firstTrain = childSnapshot.val().firstTrain;
+    var frequency = childSnapshot.val().frequency;
 
     // clg Check Point
     console.log(trainName);
+    console.log(destination);
+    console.log(firstTrain);
+    console.log(frequency);
 
     // MomentJS code goes below
 
     // Add info to table
     var newTableRow = $("<tr>").append(
-        $("<td>").text(trainName)
-        // Add other td.text here
+        $("<td>").text(trainName),
+        $("<td>").text(destination),
+        $("<td>").text(firstTrain),
+        $("<td>").text(frequency)
+
     );
 
     // Append newTableRow to timeTable
