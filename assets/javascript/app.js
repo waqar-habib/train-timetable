@@ -111,3 +111,12 @@ $("#removeBtn").on("click", function(){
     });
 });
 */
+
+// Remove Trains Function
+
+$("#removeBtn").on("click", function(){
+    alert("Warning: This action will empty the entire database.")
+    $("#timeTable > tbody").empty();
+    database.ref().remove();
+});
+

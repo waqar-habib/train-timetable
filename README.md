@@ -5,4 +5,7 @@
 https://waqar-habib.github.io/train-timetable/
 
 ## Future Development:
-Make the "Remove Trains" button functional
+Make individual "Remove Train" button for each item. 
+
+## Credits:
+My tutor, Anuj Pant, for helping me make the the "remove all trains" function work. 
